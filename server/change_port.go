@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func ChangePort() {
+func ChangePort() string {
 	content := tools.ReadFileLine(tools.LineNumber, tools.ConfigFilePath)
 	split := strings.TrimSpace(strings.Split(strings.Split(content, ":")[1], ",")[0])
 	port, _ := strconv.Atoi(split)
@@ -20,9 +20,10 @@ func ChangePort() {
 	command := exec.Command("/bin/sh", "-c", tools.ShellPath+" "+strconv.Itoa(newPort)) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
-		fmt.Println("cmd.Output: ", err)
-		return
+		fmt.Println("shell error : ", err)
+		return ""
 	}
 
-	fmt.Println(string(bytes))
+	fmt.Println("shell out : ", string(bytes))
+	return strconv.Itoa(newPort)
 }

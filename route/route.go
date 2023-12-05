@@ -8,12 +8,12 @@ import (
 
 func InitRouter(r *gin.Engine) *gin.Engine {
 
-	mainGroup := r.Group("/do", gin.BasicAuth(gin.Accounts{
+	serverGroup := r.Group("/server", gin.BasicAuth(gin.Accounts{
 		tools.HttpUser: tools.HttpPassword,
 	}))
 
-	var mainApi = new(api.MainApi)
-	mainGroup.GET("change", mainApi.ChangePort)
+	var serverApi = new(api.ServerApi)
+	serverGroup.GET("change-port", serverApi.ChangePort)
 
 	return r
 }

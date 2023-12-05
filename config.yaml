@@ -2,6 +2,8 @@ server:
   HttpUser: root
   HttpPassword: root@123
   LineNumber: 43
-  ConfigFilePath: /usr/local/x-ui/bin/config.json
-  ShellPath: /root/sh/change-port.sh
+  ConfigFilePath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/config.json
+#  ConfigFilePath: /usr/local/x-ui/bin/config.json
+  ShellPath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/change-port.sh
+#  ShellPath: /root/sh/change-port.sh
   DefaultPort: 57001

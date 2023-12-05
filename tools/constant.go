@@ -1,6 +1,9 @@
 package tools
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 var (
 	LineNumber     int
@@ -18,5 +21,11 @@ func InitConst() {
 	DefaultPort, _ = strconv.Atoi(GetConfigString("server.DefaultPort"))
 	ConfigFilePath = GetConfigString("server.ConfigFilePath")
 	ShellPath = GetConfigString("server.ShellPath")
+	fmt.Println("HttpUser :", HttpUser)
+	fmt.Println("HttpPassword :", HttpPassword)
+	fmt.Println("LineNumber :", LineNumber)
+	fmt.Println("DefaultPort :", DefaultPort)
+	fmt.Println("ConfigFilePath :", ConfigFilePath)
+	fmt.Println("ShellPath :", ShellPath)
 
 }
