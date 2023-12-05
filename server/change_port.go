@@ -9,7 +9,7 @@ import (
 )
 
 func ChangePort() string {
-	content := tools.ReadFileLine(tools.LineNumber, tools.ConfigFilePath)
+	content := tools.ReadFileLine(tools.ServerModifyLineNumber, tools.ConfigFilePath)
 	split := strings.TrimSpace(strings.Split(strings.Split(content, ":")[1], ",")[0])
 	port, _ := strconv.Atoi(split)
 	if port == 0 {
