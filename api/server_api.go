@@ -14,3 +14,9 @@ func (serverApi *ServerApi) ChangePort(c *gin.Context) {
 	tools.Success(c, gin.H{"port": port}, "成功")
 
 }
+
+func (serverApi *ServerApi) GetPort(c *gin.Context) {
+	port := server.GetPort()
+	tools.Success(c, gin.H{"port": port}, "成功")
+
+}

@@ -14,6 +14,7 @@ func InitRouter(r *gin.Engine) *gin.Engine {
 
 	var serverApi = new(api.ServerApi)
 	serverGroup.GET("change-port", serverApi.ChangePort)
+	serverGroup.GET("get-port", serverApi.GetPort)
 
 	return r
 }

@@ -1,4 +1,4 @@
-package clash
+package tools
 
 import (
 	"bufio"
@@ -7,25 +7,21 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"proxy/tools"
 	"strings"
 )
 
-func Request(method, route string, headers map[string]string, body io.Reader) (*http.Response, error) {
-	if !strings.HasPrefix(route, "/") {
-		route = "/" + route
-	}
-	_url := tools.ClashServer + route
+func Request(method, url string, headers map[string]string, body io.Reader) (*http.Response, error) {
+
 	method = strings.ToUpper(method)
 
 	client := &http.Client{}
-	reqObj, err := http.NewRequest(method, _url, body)
+	reqObj, err := http.NewRequest(method, url, body)
 	if err != nil {
 		return nil, err
 	}
 
-	if strings.TrimSpace(tools.ClashSecret) != "" {
-		s := fmt.Sprintf("Bearer %s", tools.ClashSecret)
+	if strings.TrimSpace(ClashSecret) != "" {
+		s := fmt.Sprintf("Bearer %s", ClashSecret)
 		reqObj.Header.Add("Authorization", s)
 		for key, value := range headers {
 			reqObj.Header.Add(key, value)
@@ -39,14 +35,14 @@ func Request(method, route string, headers map[string]string, body io.Reader) (*
 	return resp, nil
 }
 
-func EasyRequest(method, route string, headers map[string]string, body map[string]interface{}) (int, []byte, error) {
+func EasyRequest(method, url string, headers map[string]string, body map[string]interface{}) (int, []byte, error) {
 	data, err := json.Marshal(body)
 	if err != nil {
 		return 0, []byte{}, err
 	}
 	_body := bytes.NewBuffer(data)
 
-	resp, err := Request(method, route, headers, _body)
+	resp, err := Request(method, url, headers, _body)
 	if err != nil {
 		return 0, []byte{}, err
 	}
@@ -57,12 +53,12 @@ func EasyRequest(method, route string, headers map[string]string, body map[strin
 		return resp.StatusCode, result, err
 	}
 
-	fmt.Print("http ", route, " result : ", string(result))
+	fmt.Print("http ", url, " result : ", string(result))
 	return resp.StatusCode, result, nil
 }
 
-func UnmarshalRequest(method, route string, headers map[string]string, body map[string]interface{}, obj interface{}) error {
-	_, content, err := EasyRequest(method, route, headers, body)
+func UnmarshalRequest(method, url string, headers map[string]string, body map[string]interface{}, obj interface{}) error {
+	_, content, err := EasyRequest(method, url, headers, body)
 	if err != nil {
 		return err
 	}

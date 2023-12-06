@@ -3,6 +3,7 @@ package clash
 import (
 	"encoding/json"
 	"fmt"
+	"proxy/tools"
 	"regexp"
 	"strings"
 )
@@ -62,12 +63,13 @@ func GetLogs(level LogLevel) (chan *Log, error) {
 	logChan := make(chan *Log, 1024)
 
 	headers := map[string]string{"level": string(level)}
-	resp, err := Request("get", "/logs", headers, nil)
+	url := tools.ClashServer + "/logs"
+	resp, err := tools.Request("get", url, headers, nil)
 	if err != nil {
 		return logChan, err
 	}
 
-	HandleStreamResp(resp, func(line []byte) (stop bool) {
+	tools.HandleStreamResp(resp, func(line []byte) (stop bool) {
 		msg := &LogMessage{}
 		if err := json.Unmarshal(line, msg); err != nil {
 			return true
@@ -80,12 +82,13 @@ func GetLogs(level LogLevel) (chan *Log, error) {
 }
 
 func GetTraffic(handler func(traffic *Traffic) (stop bool)) error {
-	resp, err := Request("get", "/traffic", nil, nil)
+	url := tools.ClashServer + "/traffic"
+	resp, err := tools.Request("get", url, nil, nil)
 	if err != nil {
 		return err
 	}
 
-	HandleStreamResp(resp, func(line []byte) (stop bool) {
+	tools.HandleStreamResp(resp, func(line []byte) (stop bool) {
 		traffic := &Traffic{}
 		if err := json.Unmarshal(line, traffic); err != nil {
 			return true
@@ -124,7 +127,8 @@ func GetProxies() (map[string]*Proxies, error) {
 	container := struct {
 		Proxies map[string]*Proxies `json:"proxies"`
 	}{}
-	err := UnmarshalRequest("get", "/proxies", nil, nil, &container)
+	url := tools.ClashServer + "/proxies"
+	err := tools.UnmarshalRequest("get", url, nil, nil, &container)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +138,8 @@ func GetProxies() (map[string]*Proxies, error) {
 func GetProxyMessage(name string) (*Proxy, error) {
 	proxy := &Proxy{}
 	route := "/proxies/" + name
-	err := UnmarshalRequest("get", route, nil, nil, &proxy)
+	url := tools.ClashServer + route
+	err := tools.UnmarshalRequest("get", url, nil, nil, &proxy)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +156,8 @@ type ProxyDelay struct {
 func GetProxyDelay(name string, url string, timeout int) (*ProxyDelay, error) {
 	proxyDelay := &ProxyDelay{}
 	route := fmt.Sprintf("/proxies/%s/delay?url=%s&timeout=%d", name, url, timeout)
-	err := UnmarshalRequest("get", route, nil, nil, &proxyDelay)
+	url2 := tools.ClashServer + route
+	err := tools.UnmarshalRequest("get", url2, nil, nil, &proxyDelay)
 	if err != nil {
 		return nil, err
 	}
@@ -162,8 +168,8 @@ func SwitchProxy(selector, name string) error {
 	route := "/proxies/" + selector
 	headers := map[string]string{"Content-Type": "application/json"}
 	body := map[string]interface{}{"name": name}
-
-	code, content, err := EasyRequest("put", route, headers, body)
+	url := tools.ClashServer + route
+	code, content, err := tools.EasyRequest("put", url, headers, body)
 	if err != nil {
 		return err
 	}
@@ -194,7 +200,8 @@ type Config struct {
 
 func GetConfig() (*Config, error) {
 	config := &Config{}
-	err := UnmarshalRequest("get", "/configs", nil, nil, &config)
+	url := tools.ClashServer + "/configs"
+	err := tools.UnmarshalRequest("get", url, nil, nil, &config)
 	if err != nil {
 		return nil, err
 	}
@@ -211,7 +218,8 @@ func GetRules() ([]*Rule, error) {
 	container := struct {
 		Rules []*Rule `json:"rules"`
 	}{}
-	err := UnmarshalRequest("get", "/rules", nil, nil, &container)
+	url := tools.ClashServer + "/rules"
+	err := tools.UnmarshalRequest("get", url, nil, nil, &container)
 	if err != nil {
 		return nil, err
 	}
@@ -223,7 +231,8 @@ func EnableConfig(path string) error {
 	headers := map[string]string{"Content-Type": "application/json"}
 	body := map[string]interface{}{"path": path}
 
-	code, content, err := EasyRequest("put", "/configs", headers, body)
+	url := tools.ClashServer + "/configs"
+	code, content, err := tools.EasyRequest("put", url, headers, body)
 	if err != nil {
 		return err
 	}
@@ -243,8 +252,8 @@ func SetConfig(port, socksPort int, redirPort string, allowLan bool, mode, logLe
 		"mode":       mode,
 		"log-level":  logLevel,
 	}
-
-	code, content, err := EasyRequest("patch", "/configs", headers, body)
+	url := tools.ClashServer + "/configs"
+	code, content, err := tools.EasyRequest("patch", url, headers, body)
 	if err != nil {
 		return err
 	}
