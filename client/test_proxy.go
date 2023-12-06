@@ -1,6 +1,21 @@
 package client
 
-func test() {
+import (
+	"net/url"
+	"proxy/cons"
+	"proxy/plugin/clash"
+	"proxy/tools"
+)
 
-	//delay, err := clash.GetProxyDelay("xg", "http:%2F%2Fwww.gstatic.com%2Fgenerate_204", 10000)
+func TestJob() {
+
+	delay, err := clash.GetProxyDelay("xg", url.PathEscape(cons.TestUrl), 10000)
+	if err != nil {
+		tools.Logger.Error("err : ", err)
+	}
+	if delay.Delay != 0 {
+		tools.Logger.Info("test success , delay : ", delay.Delay)
+		return
+	}
+
 }

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"os/exec"
 	"proxy/cons"
 	"proxy/tools"
@@ -17,15 +16,15 @@ func ChangePort() string {
 		port = cons.DefaultPort
 	}
 	newPort := port + 1
-	fmt.Println("newPort : ", newPort)
+	tools.Logger.Info("newPort : ", newPort)
 	command := exec.Command("/bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(newPort)) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
-		fmt.Println("shell error : ", err)
+		tools.Logger.Error("shell error : ", err)
 		return ""
 	}
 
-	fmt.Println("shell out : ", string(bytes))
+	tools.Logger.Info("shell out : ", string(bytes))
 	return strconv.Itoa(newPort)
 }
 
@@ -33,10 +32,10 @@ func GetPort() string {
 	command := exec.Command("/bin/sh", "-c", cons.GetPortShellPath) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
-		fmt.Println("shell error : ", err)
+		tools.Logger.Error("shell error : ", err)
 		return ""
 	}
 
-	fmt.Println("shell out : ", string(bytes))
+	tools.Logger.Info("shell out : ", string(bytes))
 	return strings.Replace(strings.TrimSpace(string(bytes)), "\n", "", -1)
 }

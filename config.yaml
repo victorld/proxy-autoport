@@ -14,4 +14,5 @@ client:
   ClashSecret: secret@123
   ConfitFilePath: /Users/ld/.config/clash/config.yaml
   ServerIP: serverip
+  TestUrl: http://www.gstatic.com/generate_204&timeout=10000
 

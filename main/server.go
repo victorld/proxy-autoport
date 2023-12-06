@@ -11,6 +11,8 @@ func main() {
 
 	tools.InitViper()
 	cons.InitConst()
+	tools.InitLogger()
+
 	r := gin.Default()
 	r = route.InitRouter(r)
 	r.Run(":" + cons.HttpPort)

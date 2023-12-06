@@ -17,6 +17,7 @@ var (
 	ClashSecret            string
 	GetPortShellPath       string
 	HttpPort               string
+	TestUrl                string
 )
 
 func InitConst() {
@@ -32,6 +33,7 @@ func InitConst() {
 	//client
 	ClashServer = tools.GetConfigString("client.ClashServer")
 	ClashSecret = tools.GetConfigString("client.ClashSecret")
+	TestUrl = tools.GetConfigString("client.TestUrl")
 
 	fmt.Println("HttpUser :", HttpUser)
 	fmt.Println("HttpPassword :", HttpPassword)
@@ -43,5 +45,7 @@ func InitConst() {
 	fmt.Println("ClashSecret :", ClashSecret)
 	fmt.Println("GetPortShellPath :", GetPortShellPath)
 	fmt.Println("HttpPort :", HttpPort)
+	fmt.Println("TestUrl :", TestUrl)
+	fmt.Println()
 
 }

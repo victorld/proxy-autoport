@@ -3,6 +3,7 @@ package clash
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"proxy/cons"
 	"proxy/tools"
 	"regexp"
@@ -168,6 +169,8 @@ func GetProxyDelay(name string, url string, timeout int) (*ProxyDelay, error) {
 	headers := map[string]string{}
 	AddSecretHeader(&headers)
 	err := tools.UnmarshalRequest("get", url2, headers, nil, &proxyDelay)
+	// {"message":"An error occurred in the delay test"}
+	// {"delay":198,"meanDelay":129}
 	if err != nil {
 		return nil, err
 	}
@@ -283,4 +286,33 @@ func SetConfig(port, socksPort int, redirPort string, allowLan bool, mode, logLe
 func AddSecretHeader(headers *map[string]string) {
 	value := fmt.Sprintf("Bearer %s", cons.ClashSecret)
 	(*headers)["Authorization"] = value
+}
+
+func TestClash() {
+	proxies, err := GetProxies()
+	if err != nil {
+	}
+	fmt.Println("proxies : ", proxies)
+	fmt.Println()
+
+	config, err := GetConfig()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("config : ", config)
+	fmt.Println()
+
+	//rules, err := clash.GetRules()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("rules : ", rules)
+	//fmt.Println()
+
+	delay, err := GetProxyDelay("xg", url.PathEscape(cons.TestUrl), 10000)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("delay : ", delay)
+	fmt.Println()
 }
