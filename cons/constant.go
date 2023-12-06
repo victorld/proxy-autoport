@@ -8,15 +8,15 @@ import (
 
 var (
 	ServerModifyLineNumber int
-	DefaultPort            int
+	ProxyDefaultPort       int
 	HttpPassword           string
-	ConfigFilePath         string
+	ServerConfigFilePath   string
 	ChangePortShellPath    string
 	HttpUser               string
 	ClashServer            string
 	ClashSecret            string
 	GetPortShellPath       string
-	HttpPort               string
+	ServerHttpPort         string
 	TestUrl                string
 )
 
@@ -25,11 +25,11 @@ func InitConst() {
 	HttpUser = tools.GetConfigString("server.HttpUser")
 	HttpPassword = tools.GetConfigString("server.HttpPassword")
 	ServerModifyLineNumber, _ = strconv.Atoi(tools.GetConfigString("server.ServerModifyLineNumber"))
-	DefaultPort, _ = strconv.Atoi(tools.GetConfigString("server.DefaultPort"))
-	ConfigFilePath = tools.GetConfigString("server.ConfigFilePath")
+	ProxyDefaultPort, _ = strconv.Atoi(tools.GetConfigString("server.ProxyDefaultPort"))
+	ServerConfigFilePath = tools.GetConfigString("server.ServerConfigFilePath")
 	ChangePortShellPath = tools.GetConfigString("server.ChangePortShellPath")
 	GetPortShellPath = tools.GetConfigString("server.GetPortShellPath")
-	HttpPort = tools.GetConfigString("server.HttpPort")
+	ServerHttpPort = tools.GetConfigString("server.ServerHttpPort")
 	//client
 	ClashServer = tools.GetConfigString("client.ClashServer")
 	ClashSecret = tools.GetConfigString("client.ClashSecret")
@@ -38,13 +38,13 @@ func InitConst() {
 	fmt.Println("HttpUser :", HttpUser)
 	fmt.Println("HttpPassword :", HttpPassword)
 	fmt.Println("ServerModifyLineNumber :", ServerModifyLineNumber)
-	fmt.Println("DefaultPort :", DefaultPort)
-	fmt.Println("ConfigFilePath :", ConfigFilePath)
+	fmt.Println("ProxyDefaultPort :", ProxyDefaultPort)
+	fmt.Println("ServerConfigFilePath :", ServerConfigFilePath)
 	fmt.Println("ChangePortShellPath :", ChangePortShellPath)
 	fmt.Println("ClashServer :", ClashServer)
 	fmt.Println("ClashSecret :", ClashSecret)
 	fmt.Println("GetPortShellPath :", GetPortShellPath)
-	fmt.Println("HttpPort :", HttpPort)
+	fmt.Println("ServerHttpPort :", ServerHttpPort)
 	fmt.Println("TestUrl :", TestUrl)
 	fmt.Println()
 

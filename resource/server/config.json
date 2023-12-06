@@ -40,7 +40,7 @@
     },
     {
       "listen": null,
-      "port": 57008,
+      "port": 42002,
       "protocol": "vmess",
       "settings": {
         "clients": [
