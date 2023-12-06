@@ -7,7 +7,7 @@ import (
 	"proxy/tools"
 )
 
-func TestJob() {
+func CheckJob() {
 
 	delay, err := clash.GetProxyDelay("xg", url.PathEscape(cons.TestUrl), 10000)
 	if err != nil {

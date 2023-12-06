@@ -20,7 +20,7 @@ func main() {
 	// 添加一个任务
 	c.AddFunc(spec, func() {
 		fmt.Println("cron start at : ", time.Now().Format("2006-01-02 15:04:05"))
-		client.TestJob()
+		client.CheckJob()
 	})
 	c.Start()
 
