@@ -20,12 +20,8 @@ func Request(method, url string, headers map[string]string, body io.Reader) (*ht
 		return nil, err
 	}
 
-	if strings.TrimSpace(ClashSecret) != "" {
-		s := fmt.Sprintf("Bearer %s", ClashSecret)
-		reqObj.Header.Add("Authorization", s)
-		for key, value := range headers {
-			reqObj.Header.Add(key, value)
-		}
+	for key, value := range headers {
+		reqObj.Header.Add(key, value)
 	}
 
 	resp, err := client.Do(reqObj)

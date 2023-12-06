@@ -3,13 +3,13 @@ package route
 import (
 	"github.com/gin-gonic/gin"
 	"proxy/api"
-	"proxy/tools"
+	"proxy/cons"
 )
 
 func InitRouter(r *gin.Engine) *gin.Engine {
 
 	serverGroup := r.Group("/server", gin.BasicAuth(gin.Accounts{
-		tools.HttpUser: tools.HttpPassword,
+		cons.HttpUser: cons.HttpPassword,
 	}))
 
 	var serverApi = new(api.ServerApi)

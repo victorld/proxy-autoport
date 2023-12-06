@@ -3,6 +3,7 @@ package clash
 import (
 	"encoding/json"
 	"fmt"
+	"proxy/cons"
 	"proxy/tools"
 	"regexp"
 	"strings"
@@ -63,7 +64,8 @@ func GetLogs(level LogLevel) (chan *Log, error) {
 	logChan := make(chan *Log, 1024)
 
 	headers := map[string]string{"level": string(level)}
-	url := tools.ClashServer + "/logs"
+	AddSecretHeader(&headers)
+	url := cons.ClashServer + "/logs"
 	resp, err := tools.Request("get", url, headers, nil)
 	if err != nil {
 		return logChan, err
@@ -82,8 +84,10 @@ func GetLogs(level LogLevel) (chan *Log, error) {
 }
 
 func GetTraffic(handler func(traffic *Traffic) (stop bool)) error {
-	url := tools.ClashServer + "/traffic"
-	resp, err := tools.Request("get", url, nil, nil)
+	url := cons.ClashServer + "/traffic"
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	resp, err := tools.Request("get", url, headers, nil)
 	if err != nil {
 		return err
 	}
@@ -127,8 +131,10 @@ func GetProxies() (map[string]*Proxies, error) {
 	container := struct {
 		Proxies map[string]*Proxies `json:"proxies"`
 	}{}
-	url := tools.ClashServer + "/proxies"
-	err := tools.UnmarshalRequest("get", url, nil, nil, &container)
+	url := cons.ClashServer + "/proxies"
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	err := tools.UnmarshalRequest("get", url, headers, nil, &container)
 	if err != nil {
 		return nil, err
 	}
@@ -138,8 +144,10 @@ func GetProxies() (map[string]*Proxies, error) {
 func GetProxyMessage(name string) (*Proxy, error) {
 	proxy := &Proxy{}
 	route := "/proxies/" + name
-	url := tools.ClashServer + route
-	err := tools.UnmarshalRequest("get", url, nil, nil, &proxy)
+	url := cons.ClashServer + route
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	err := tools.UnmarshalRequest("get", url, headers, nil, &proxy)
 	if err != nil {
 		return nil, err
 	}
@@ -156,8 +164,10 @@ type ProxyDelay struct {
 func GetProxyDelay(name string, url string, timeout int) (*ProxyDelay, error) {
 	proxyDelay := &ProxyDelay{}
 	route := fmt.Sprintf("/proxies/%s/delay?url=%s&timeout=%d", name, url, timeout)
-	url2 := tools.ClashServer + route
-	err := tools.UnmarshalRequest("get", url2, nil, nil, &proxyDelay)
+	url2 := cons.ClashServer + route
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	err := tools.UnmarshalRequest("get", url2, headers, nil, &proxyDelay)
 	if err != nil {
 		return nil, err
 	}
@@ -167,8 +177,9 @@ func GetProxyDelay(name string, url string, timeout int) (*ProxyDelay, error) {
 func SwitchProxy(selector, name string) error {
 	route := "/proxies/" + selector
 	headers := map[string]string{"Content-Type": "application/json"}
+	AddSecretHeader(&headers)
 	body := map[string]interface{}{"name": name}
-	url := tools.ClashServer + route
+	url := cons.ClashServer + route
 	code, content, err := tools.EasyRequest("put", url, headers, body)
 	if err != nil {
 		return err
@@ -200,8 +211,10 @@ type Config struct {
 
 func GetConfig() (*Config, error) {
 	config := &Config{}
-	url := tools.ClashServer + "/configs"
-	err := tools.UnmarshalRequest("get", url, nil, nil, &config)
+	url := cons.ClashServer + "/configs"
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	err := tools.UnmarshalRequest("get", url, headers, nil, &config)
 	if err != nil {
 		return nil, err
 	}
@@ -218,8 +231,10 @@ func GetRules() ([]*Rule, error) {
 	container := struct {
 		Rules []*Rule `json:"rules"`
 	}{}
-	url := tools.ClashServer + "/rules"
-	err := tools.UnmarshalRequest("get", url, nil, nil, &container)
+	url := cons.ClashServer + "/rules"
+	headers := map[string]string{}
+	AddSecretHeader(&headers)
+	err := tools.UnmarshalRequest("get", url, headers, nil, &container)
 	if err != nil {
 		return nil, err
 	}
@@ -229,9 +244,10 @@ func GetRules() ([]*Rule, error) {
 // EnableConfig 这个接口不会影响 external-controller 和 secret 的值
 func EnableConfig(path string) error {
 	headers := map[string]string{"Content-Type": "application/json"}
+	AddSecretHeader(&headers)
 	body := map[string]interface{}{"path": path}
 
-	url := tools.ClashServer + "/configs"
+	url := cons.ClashServer + "/configs"
 	code, content, err := tools.EasyRequest("put", url, headers, body)
 	if err != nil {
 		return err
@@ -244,6 +260,7 @@ func EnableConfig(path string) error {
 
 func SetConfig(port, socksPort int, redirPort string, allowLan bool, mode, logLevel string) error {
 	headers := map[string]string{"Content-Type": "application/json"}
+	AddSecretHeader(&headers)
 	body := map[string]interface{}{
 		"port":       port,
 		"socks-port": socksPort,
@@ -252,7 +269,7 @@ func SetConfig(port, socksPort int, redirPort string, allowLan bool, mode, logLe
 		"mode":       mode,
 		"log-level":  logLevel,
 	}
-	url := tools.ClashServer + "/configs"
+	url := cons.ClashServer + "/configs"
 	code, content, err := tools.EasyRequest("patch", url, headers, body)
 	if err != nil {
 		return err
@@ -261,4 +278,9 @@ func SetConfig(port, socksPort int, redirPort string, allowLan bool, mode, logLe
 		return fmt.Errorf("unknown error: %s", string(content))
 	}
 	return nil
+}
+
+func AddSecretHeader(headers *map[string]string) {
+	value := fmt.Sprintf("Bearer %s", cons.ClashSecret)
+	(*headers)["Authorization"] = value
 }

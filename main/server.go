@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"proxy/cons"
 	"proxy/route"
 	"proxy/tools"
 )
@@ -9,8 +10,8 @@ import (
 func main() {
 
 	tools.InitViper()
-	tools.InitConst()
+	cons.InitConst()
 	r := gin.Default()
 	r = route.InitRouter(r)
-	r.Run(":37001")
+	r.Run(":" + cons.HttpPort)
 }

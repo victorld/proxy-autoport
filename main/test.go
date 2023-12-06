@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"proxy/cons"
 	"proxy/plugin/clash"
 	"proxy/tools"
 )
@@ -37,7 +38,7 @@ func testClash() {
 
 func main() {
 	tools.InitViper()
-	tools.InitConst()
+	cons.InitConst()
 	//server.ChangePort()
 	testClash()
 }
