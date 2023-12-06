@@ -5,7 +5,7 @@ server:
 #  ConfigFilePath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/config.json
   ConfigFilePath: /usr/local/x-ui/bin/config.json
 #  ChangePortShellPath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/change-port.sh
-  ShellPath: /root/sh/change-port.sh
+  ChangePortShellPath: /root/sh/change-port.sh
   DefaultPort: 57001
   ClashServer: http://localhost:9090
   ClashSecret: secret@123
