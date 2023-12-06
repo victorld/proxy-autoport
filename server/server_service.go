@@ -37,5 +37,5 @@ func GetPort() string {
 	}
 
 	fmt.Println("shell out : ", string(bytes))
-	return string(bytes)
+	return strings.Replace(strings.TrimSpace(string(bytes)), "\n", "", -1)
 }
