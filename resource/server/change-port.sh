@@ -5,4 +5,4 @@ echo "第一个参数为：$1";
 echo "第一个参数为：$2";
 
 sed -i "43s/^.*$/      \"port\": $1,/" $2
-#monit restart xray
+monit restart xray
