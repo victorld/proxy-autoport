@@ -12,7 +12,7 @@ func ChangePort() string {
 	content := tools.ReadFileLine(tools.ServerModifyLineNumber, tools.ConfigFilePath)
 	split := strings.TrimSpace(strings.Split(strings.Split(content, ":")[1], ",")[0])
 	port, _ := strconv.Atoi(split)
-	if port == 0 {
+	if port == 0 || port >= tools.DefaultPort+3000 {
 		port = tools.DefaultPort
 	}
 	newPort := port + 1
