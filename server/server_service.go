@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ChangePort() string {
+func IncrPort() string {
 	content := tools.ReadFileLine(cons.ServerModifyLineNumber, cons.ServerConfigFilePath)
 	split := strings.TrimSpace(strings.Split(strings.Split(content, ":")[1], ",")[0])
 	port, _ := strconv.Atoi(split)
@@ -28,6 +28,30 @@ func ChangePort() string {
 
 	tools.Logger.Info("shell out : ", string(bytes))
 	return strconv.Itoa(newPort)
+}
+
+func ChangePort(portStr string) (string, error) {
+	//content := tools.ReadFileLine(cons.ServerModifyLineNumber, cons.ServerConfigFilePath)
+	//split := strings.TrimSpace(strings.Split(strings.Split(content, ":")[1], ",")[0])
+	//port, _ := strconv.Atoi(split)
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		return "", err
+	}
+	if port < cons.ProxyDefaultPort || port >= cons.ProxyDefaultPort+3000 {
+		port = cons.ProxyDefaultPort
+	}
+	tools.Logger.Info("port : ", port)
+	fmt.Println("------------command : /bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath)
+	command := exec.Command("/bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath) //初始化Cmd
+	bytes, err := command.Output()
+	if err != nil {
+		tools.Logger.Error("shell error : ", err)
+		return "", err
+	}
+
+	tools.Logger.Info("shell out : ", string(bytes))
+	return strconv.Itoa(port), nil
 }
 
 func GetPort() string {
