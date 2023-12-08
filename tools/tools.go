@@ -2,6 +2,7 @@ package tools
 
 import (
 	"bufio"
+	"encoding/json"
 	"os"
 )
 
@@ -17,4 +18,9 @@ func ReadFileLine(lineNumber int, filePath string) string {
 		lineCount++
 	}
 	return ""
+}
+
+func MarshalPrint(v any) string {
+	sm, _ := json.Marshal(v)
+	return string(sm)
 }

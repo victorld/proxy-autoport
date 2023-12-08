@@ -22,6 +22,7 @@ func InitViper() {
 	if err := VP.ReadInConfig(); err != nil {
 		panic(err)
 	}
+	//fmt.Println("AllKeys : ", VP.AllKeys())
 }
 
 func GetConfigString(key string) string {

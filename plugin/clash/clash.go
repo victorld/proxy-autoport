@@ -67,7 +67,7 @@ func GetLogs(level LogLevel) (chan *Log, error) {
 	headers := map[string]string{"level": string(level)}
 	AddSecretHeader(&headers)
 	url := cons.ClashServer + "/logs"
-	resp, err := tools.Request("get", url, headers, nil)
+	resp, err := tools.Request("get", url, headers, nil, "", "")
 	if err != nil {
 		return logChan, err
 	}
@@ -88,7 +88,7 @@ func GetTraffic(handler func(traffic *Traffic) (stop bool)) error {
 	url := cons.ClashServer + "/traffic"
 	headers := map[string]string{}
 	AddSecretHeader(&headers)
-	resp, err := tools.Request("get", url, headers, nil)
+	resp, err := tools.Request("get", url, headers, nil, "", "")
 	if err != nil {
 		return err
 	}
