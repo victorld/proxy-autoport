@@ -48,6 +48,12 @@ func InitConst() {
 	if v := os.Getenv("client.ClashSecret"); v != "" {
 		ClashSecret = v
 	}
+	if v := os.Getenv("client.TestUrl"); v != "" {
+		TestUrl = v
+	}
+	if v := os.Getenv("client.ClientConfitFilePath"); v != "" {
+		ClientConfitFilePath = v
+	}
 	if v := os.Getenv("client.ServerIP"); v != "" {
 		ServerIP = v
 	}
