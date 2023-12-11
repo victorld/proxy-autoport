@@ -18,8 +18,8 @@ func IncrPort() string {
 	}
 	newPort := port + 1
 	tools.Logger.Info("newPort : ", newPort)
-	fmt.Println("------------command : /bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(newPort)+" "+cons.ServerConfigFilePath)
-	command := exec.Command("/bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(newPort)+" "+cons.ServerConfigFilePath) //初始化Cmd
+	fmt.Println("------------command : /bin/sh", "-c", cons.ServerChangePortShellPath+" "+strconv.Itoa(newPort)+" "+cons.ServerConfigFilePath)
+	command := exec.Command("/bin/sh", "-c", cons.ServerChangePortShellPath+" "+strconv.Itoa(newPort)+" "+cons.ServerConfigFilePath) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
 		tools.Logger.Error("shell error : ", err)
@@ -42,8 +42,8 @@ func ChangePort(portStr string) (string, error) {
 		port = cons.ProxyDefaultPort
 	}
 	tools.Logger.Info("port : ", port)
-	fmt.Println("------------command : /bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath)
-	command := exec.Command("/bin/sh", "-c", cons.ChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath) //初始化Cmd
+	fmt.Println("------------command : /bin/sh", "-c", cons.ServerChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath)
+	command := exec.Command("/bin/sh", "-c", cons.ServerChangePortShellPath+" "+strconv.Itoa(port)+" "+cons.ServerConfigFilePath) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
 		tools.Logger.Error("shell error : ", err)

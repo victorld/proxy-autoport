@@ -50,7 +50,7 @@ func EasyRequest(method, url string, headers map[string]string, body map[string]
 		return resp.StatusCode, result, err
 	}
 
-	Logger.Info("http ", url, " result : ", string(result))
+	//Logger.Info("http auth ", url, " method : ", method, " header : ", headers, " body : ", body, " result : ", string(result))
 	return resp.StatusCode, result, nil
 }
 
@@ -72,7 +72,7 @@ func EasyAuthRequest(method, url string, headers map[string]string, body map[str
 		return resp.StatusCode, result, err
 	}
 
-	Logger.Info("http auth ", url, " result : ", string(result))
+	//Logger.Info("http auth ", url, " method : ", method, " header : ", headers, " body : ", body, " result : ", string(result))
 	return resp.StatusCode, result, nil
 }
 

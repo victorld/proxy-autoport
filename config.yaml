@@ -1,18 +1,19 @@
 server:
-  HttpUser: root
-  HttpPassword: root@123
+  HttpUser: abc
+  HttpPassword: abc
   ServerModifyLineNumber: 43
   #  ServerConfigFilePath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/server/config.json
   ServerConfigFilePath: /usr/local/x-ui/bin/config.json
   #  ChangePortShellPath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/server/change-port-mac.sh
-  ChangePortShellPath: /root/proxy-autoport/resource/server/change-port-mac.sh
+  ServerChangePortShellPath: /root/proxy-autoport/resource/server/change-port-mac.sh
   ProxyDefaultPort: 42001
   ServerHttpPort: 37001
   GetPortShellPath: /root/proxy-autoport/resource/server/get-port.sh
 client:
   ClashServer: http://localhost:9090
   ClashSecret: secret@123
-  ClientConfitFilePath: /Users/ld/Desktop
+  ClientConfitFilePath: /Users/ld/.config/clash/config.yaml
+  ClientChangePortShellPath: /Users/ld/my-file/workspace/go_own/proxy-autoport/resource/client/change-port.sh
   ServerIP: serverIP
   TestUrl: http://www.gstatic.com/generate_204&timeout=10000
 

@@ -3,7 +3,6 @@ package clash
 import (
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"proxy/cons"
 	"proxy/tools"
 	"regexp"
@@ -255,7 +254,7 @@ func EnableConfig(path string) error {
 	if err != nil {
 		return err
 	}
-	if code != 200 {
+	if code < 200 || code > 299 {
 		return fmt.Errorf("unknown error: %s", string(content))
 	}
 	return nil
@@ -295,12 +294,12 @@ func TestClash() {
 	fmt.Println("proxies : ", proxies)
 	fmt.Println()
 
-	config, err := GetConfig()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("config : ", config)
-	fmt.Println()
+	//config, err := GetConfig()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("config : ", config)
+	//fmt.Println()
 
 	//rules, err := clash.GetRules()
 	//if err != nil {
@@ -309,10 +308,15 @@ func TestClash() {
 	//fmt.Println("rules : ", rules)
 	//fmt.Println()
 
-	delay, err := GetProxyDelay("xg", url.PathEscape(cons.TestUrl), 10000)
-	if err != nil {
-		panic(err)
+	//delay, err := GetProxyDelay("xg", url.PathEscape(cons.TestUrl), 10000)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println("delay : ", delay)
+	//fmt.Println()
+
+	err1 := EnableConfig(cons.ClientConfitFilePath)
+	if err1 != nil {
+		panic(err1)
 	}
-	fmt.Println("delay : ", delay)
-	fmt.Println()
 }
