@@ -315,7 +315,7 @@ func TestClash() {
 	//fmt.Println("delay : ", delay)
 	//fmt.Println()
 
-	err1 := EnableConfig(cons.ClientConfitFilePath)
+	err1 := EnableConfig(cons.ClientLocalConfitFilePath)
 	if err1 != nil {
 		panic(err1)
 	}

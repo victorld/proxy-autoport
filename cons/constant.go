@@ -18,7 +18,8 @@ var (
 	ClashSecret               string
 	GetPortShellPath          string
 	ServerHttpPort            string
-	ClientConfitFilePath      string
+	ClientLocalConfitFilePath string
+	ClashServerConfitFilePath string
 	ServerIP                  string
 	TestUrl                   string
 	ClientChangePortShellPath string
@@ -38,7 +39,8 @@ func InitConst() {
 	ClashServer = tools.GetConfigString("client.ClashServer")
 	ClashSecret = tools.GetConfigString("client.ClashSecret")
 	TestUrl = tools.GetConfigString("client.TestUrl")
-	ClientConfitFilePath = tools.GetConfigString("client.ClientConfitFilePath")
+	ClientLocalConfitFilePath = tools.GetConfigString("client.ClientLocalConfitFilePath")
+	ClashServerConfitFilePath = tools.GetConfigString("client.ClashServerConfitFilePath")
 	ServerIP = tools.GetConfigString("client.ServerIP")
 	ClientChangePortShellPath = tools.GetConfigString("client.ClientChangePortShellPath")
 
@@ -51,8 +53,11 @@ func InitConst() {
 	if v := os.Getenv("client.ClientConfitFilePath"); v != "" {
 		ClientConfitFilePath = v
 	}
-	if v := os.Getenv("client.ClientConfitFilePath"); v != "" {
-		ClientConfitFilePath = v
+	if v := os.Getenv("client.ClientLocalConfitFilePath"); v != "" {
+		ClientLocalConfitFilePath = v
+	}
+	if v := os.Getenv("client.ClashServerConfitFilePath"); v != "" {
+		ClashServerConfitFilePath = v
 	}
 	if v := os.Getenv("client.ServerIP"); v != "" {
 		ServerIP = v
@@ -68,7 +73,8 @@ func InitConst() {
 	fmt.Println("GetPortShellPath :", GetPortShellPath)
 	fmt.Println("ServerHttpPort :", ServerHttpPort)
 	fmt.Println("TestUrl :", TestUrl)
-	fmt.Println("ClientConfitFilePath :", ClientConfitFilePath)
+	fmt.Println("ClientLocalConfitFilePath :", ClientLocalConfitFilePath)
+	fmt.Println("ClashServerConfitFilePath :", ClashServerConfitFilePath)
 	fmt.Println("ServerIP :", ServerIP)
 	fmt.Println("ClientChangePortShellPath :", ClientChangePortShellPath)
 	fmt.Println()

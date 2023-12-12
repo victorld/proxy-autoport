@@ -46,7 +46,7 @@ func CheckJob() (string, error) {
 		tools.Logger.Error("chmod config error : ", err)
 	}
 
-	command := exec.Command("/bin/sh", "-c", cons.ClientChangePortShellPath+" "+port+" "+cons.ClientConfitFilePath) //初始化Cmd
+	command := exec.Command("/bin/sh", "-c", cons.ClientChangePortShellPath+" "+port+" "+cons.ClientLocalConfitFilePath) //初始化Cmd
 	bytes, err := command.Output()
 	if err != nil {
 		tools.Logger.Error("client change port error : ", err)
@@ -54,7 +54,7 @@ func CheckJob() (string, error) {
 	}
 	tools.Logger.Info("shell out : ", string(bytes))
 
-	err = clash.EnableConfig(cons.ClientConfitFilePath)
+	err = clash.EnableConfig(cons.ClashServerConfitFilePath)
 	if err != nil {
 		tools.Logger.Error("client update config errpr : ", err)
 		return "client update config errpr", err
