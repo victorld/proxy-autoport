@@ -50,9 +50,6 @@ func InitConst() {
 	if v := os.Getenv("client.ClashSecret"); v != "" {
 		ClashSecret = v
 	}
-	if v := os.Getenv("client.ClientConfitFilePath"); v != "" {
-		ClientConfitFilePath = v
-	}
 	if v := os.Getenv("client.ClientLocalConfitFilePath"); v != "" {
 		ClientLocalConfitFilePath = v
 	}
@@ -61,6 +58,9 @@ func InitConst() {
 	}
 	if v := os.Getenv("client.ServerIP"); v != "" {
 		ServerIP = v
+	}
+	if v := os.Getenv("client.ClientChangePortShellPath"); v != "" {
+		ClientChangePortShellPath = v
 	}
 	fmt.Println("HttpUser :", HttpUser)
 	fmt.Println("HttpPassword :", HttpPassword)
