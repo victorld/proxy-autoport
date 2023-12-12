@@ -1,3 +1,3 @@
 #!/bin/sh
 
-go run /app/proxy-autoport/main/client_check.go
+go run ./main/client_check.go
